@@ -1,0 +1,9 @@
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\bin\Debug\CheckersGame.exe.config
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\obj\Debug\CheckersGame.csprojResolveAssemblyReference.cache
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\obj\Debug\CheckersGame.Properties.Resources.resources
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\obj\Debug\CheckersGame.csproj.GenerateResource.Cache
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\bin\Debug\CheckersGame.exe
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\bin\Debug\CheckersGame.pdb
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\obj\Debug\CheckersGame.Form1.resources
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\obj\Debug\CheckersGame.exe
+c:\users\pasha\documents\visual studio 2015\Projects\CheckersGame\CheckersGame\obj\Debug\CheckersGame.pdb
