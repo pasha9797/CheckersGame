@@ -29,6 +29,7 @@ namespace CheckersGame
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             myBoard.myDraw(g);
+
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
