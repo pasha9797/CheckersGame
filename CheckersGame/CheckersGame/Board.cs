@@ -115,13 +115,14 @@ namespace CheckersGame
             int cX = toCoord(x);
             int cY = toCoord(y);
             bool complete = false;
+            bool beated = false;
             Checker neigbour;
             Team nTeam;
 
             if (cX < 1 || cX > 8 || cY < 1 || cY > 8) return false;
 
             if (active.Damka)//если дамка, то отдельный обработчик
-                complete = ProceedDamka(cX, cY);
+                complete = ProceedDamka(cX, cY, ref beated);
 
             else//если просто шашка
             {
@@ -148,6 +149,7 @@ namespace CheckersGame
                             active.MoveChecker(dX, dY);//двигаем шашку
                             neigbour.Active = false; //убиваем противника
                             complete = true;
+                            beated = true;
                         }
                     }
                 }
@@ -155,16 +157,21 @@ namespace CheckersGame
 
             if (complete)//очередь другого игрока
             {
-                active = null;
-                if (whoSteps == Team.Black)
-                    whoSteps = Team.White;
-                else
-                    whoSteps = Team.Black;
+                bool change = true;
+                change = (!CheckPossibleBeat() || !beated);
+                if (change)
+                {
+                    active = null;
+                    if (whoSteps == Team.Black)
+                        whoSteps = Team.White;
+                    else
+                        whoSteps = Team.Black;
+                }
             }
             return complete;
         }
 
-        private bool ProceedDamka(int cX, int cY)
+        private bool ProceedDamka(int cX, int cY, ref bool beated)
         {
             bool complete = false;
             int dX = cX - active.Position.X;
@@ -172,7 +179,7 @@ namespace CheckersGame
 
             if (Math.Abs(dX) != Math.Abs(dY)) return false;//если ход не по диагонали
             if (cX == active.Position.X && cY == active.Position.Y) return true;//если дошли точки
-
+            //ggg
             int sX = dX / Math.Abs(dX);
             int sY = dY / Math.Abs(dY);
 
@@ -180,10 +187,14 @@ namespace CheckersGame
             if(neigbour !=null)
             {
                 if (neigbour.CheckerTeam == active.CheckerTeam) return false; //если на пути своя шашка
-                else neigbour.Active = false;
+                else
+                {
+                    neigbour.Active = false;
+                    beated = true;
+                }
             }
             active.MoveChecker(sX, sY);
-            complete = ProceedDamka(cX, cY);
+            complete = ProceedDamka(cX, cY, ref beated);
             if (!complete)
             {
                 active.MoveChecker(-sX, -sY);
@@ -262,5 +273,52 @@ namespace CheckersGame
             g.FillEllipse(myBrush, 11*step, 0.4F*step, size, size);
             g.DrawEllipse(myPen, 11*step, 0.4F*step, size, size);
         }
+        public bool CheckPossibleBeat()
+        {
+            bool okay = false;
+            int i = 0;
+            while (i < 4 && !okay)
+            {
+                int x = active.Position.X;
+                int y = active.Position.Y;
+                int dX = 0, dY = 0;
+                while (x >= 1 && x <= 8 && y >= 1 && y <= 8 && !okay)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            dX = 1;
+                            dY = 1;
+                            break;
+                        case 1:
+                            dX = 1;
+                            dY = -1;
+                            break;
+                        case 2:
+                            dX = -1;
+                            dY = -1;
+                            break;
+                        case 3:
+                            dX = -1;
+                            dY = 1;
+                            break;
+
+                    }
+                    x += dX;
+                    y += dY;
+                    if (x+dX < 1 || x+dX > 8 || y+dY < 1 || y+dY > 8) okay = false;
+                    else
+                    {
+                        Checker whoToBeat = FindCheckerByCoords(x, y);
+                        Checker whereToStop = FindCheckerByCoords(x + dX, y + dY);
+                        if (whoToBeat != null && whereToStop == null && whoToBeat.CheckerTeam!=active.CheckerTeam) okay = true;
+                        else if (whoToBeat != null && whereToStop != null) okay = false;
+                    }
+                }
+                i++;
+            }
+            return okay;
+        }
     }
+
 }
